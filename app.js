@@ -3,10 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require("cors")
 
+// routes
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
+
+// express 实例化
 var app = express();
 
 // view engine setup
@@ -16,13 +19,15 @@ app.set('view engine', 'pug');
 // middleware
 // 1.app level middleware
 app.use(logger('dev'));
-app.use(express.json());
+app.use(cors())
+app.use(express.json()); // 处理json格式数据
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 2. router middleware
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
