@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {list} = require("./usersController")
+const {list,deleteUser,registerUser} = require("./usersController")
 
 /* GET users listing. */
-router.get('/', list);
-
-router.get('/:id', async (req, res) => {
-    const params = req.params
-    res.send("get user by id" + params.id)
-})
-
+router
+    .get('/', list)
+    .delete('/',deleteUser)
+    .post('/register',registerUser)
 
 module.exports = router;

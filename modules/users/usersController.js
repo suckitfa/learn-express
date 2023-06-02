@@ -14,6 +14,16 @@ const list = async (req,res) => {
     })
 }
 
+const deleteUser = async (req,res) => {
+    res.send("delete user")
+}
+
+const registerUser = async (req,res) => {
+    console.log('body = ',req.body)
+    res.send("register user")
+}
 module.exports = {
     list,
+    deleteUser,
+    registerUser
 }
