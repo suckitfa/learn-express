@@ -1,6 +1,8 @@
 // 数据库交互
 const mongoose = require('mongoose');
 const db = require('../../db');
+const md5 = require('../../utils/md5');
+const baseModel = require('../../utils/baseModel');
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -12,6 +14,8 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
+        // 加密md5
+        set: (val) => md5(val),
         required: true,
     },
     phone: {
@@ -20,16 +24,10 @@ const userSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        default:null,
+        default: null,
     },
-    createTime: {
-        type: Date,
-        default: Date.now,
-    },
-    updateTime: {
-        type: Date,
-        default: Date.now,
-    }
+    // 解构赋值
+    ...baseModel
 })
 
 module.exports = mongoose.model('user', userSchema)
