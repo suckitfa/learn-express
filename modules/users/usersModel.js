@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         // 加密md5
         set: (val) => md5(val),
+        select:false, // 查询时不显示
         required: true,
     },
     phone: {
@@ -25,6 +26,11 @@ const userSchema = new mongoose.Schema({
     image: {
         type: String,
         default: null,
+    },
+    // 删除标记
+    delFlag: {
+        type: Boolean,
+        default: false,
     },
     // 解构赋值
     ...baseModel

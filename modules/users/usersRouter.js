@@ -14,7 +14,6 @@ router
         // 错误处理中间件
         (req,res,next) => {
             const errors = validationResult(req)
-            console.log('errors = ',errors)
             if(!errors.isEmpty()){
                 res.json({
                     code: 500,
