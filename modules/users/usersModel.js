@@ -1,15 +1,16 @@
 // 数据库交互
 const mongoose = require('mongoose');
+const db = require('../../db');
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
     },
-    emamil: {
+    email: {
         type: String,
         required: true,
     },
-    passsord: {
+    password: {
         type: String,
         required: true,
     },
@@ -23,11 +24,11 @@ const userSchema = new mongoose.Schema({
     },
     createTime: {
         type: Date,
-        required: Date.now,
+        default: Date.now,
     },
     updateTime: {
         type: Date,
-        required: Date.now,
+        default: Date.now,
     }
 })
 

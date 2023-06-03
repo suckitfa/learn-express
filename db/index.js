@@ -4,6 +4,7 @@ const  main = async () => {
     await mongoose.connect(config.DBURL)
 }
 
+// 链接数据库
 main()
 .then(resp => {
     console.log('链接成功！')
@@ -12,3 +13,4 @@ main()
     console.log('链接失败！')
 })
 
+module.exports = mongoose;
