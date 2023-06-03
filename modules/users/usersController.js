@@ -1,5 +1,6 @@
 // 处理业务逻辑
 const usersModel = require('./usersModel')
+const md5 = require('../../utils/md5')
 const list = async (req, res) => {
     const data = [
         {
@@ -30,8 +31,26 @@ const registerUser = async (req, res) => {
         res.json({ code: 500, data: err, sucess: false })
     }
 }
+
+const login = async (req, res) => {
+    // 1. 客户端数据验证
+    // 2. 数据库查询
+    // 3. 返回数据
+    const { email, password } = req.body
+    const encryptPassword = md5(password)
+    const user = await usersModel.findOne({ email})
+     // 前面经过 validator 验证，这里不会为空
+    if(user.password !== encryptPassword){
+        res.json({ code: 500, message: "密码错误", data:null,sucess: false })
+    } else {
+        res.json({ code: 200, message: "登录成功",
+        data: {...user._doc,
+        }, sucess: true })
+    }
+}
 module.exports = {
     list,
     deleteUser,
-    registerUser
+    registerUser,
+    login
 }

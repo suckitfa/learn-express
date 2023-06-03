@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {validationResult} = require('express-validator')
-const {list,deleteUser,registerUser} = require("./usersController")
+const {list,deleteUser,registerUser,login} = require("./usersController")
 const validator = require('../../middleware/validator/userValidator')
 
 router
@@ -25,5 +25,6 @@ router
             next()
         },
         registerUser)
+    .post('/login',validator.login,login)
 
 module.exports = router;
