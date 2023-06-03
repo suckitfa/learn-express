@@ -1,11 +1,29 @@
 const express = require('express');
 const router = express.Router();
+const {validationResult} = require('express-validator')
 const {list,deleteUser,registerUser} = require("./usersController")
+const validator = require('../../middleware/validator/userValidator')
 
-/* GET users listing. */
 router
     .get('/', list)
     .delete('/',deleteUser)
-    .post('/register',registerUser)
+    .post(
+        '/register',
+        // 加载中间件
+        validator.register,
+        // 错误处理中间件
+        (req,res,next) => {
+            const errors = validationResult(req)
+            console.log('errors = ',errors)
+            if(!errors.isEmpty()){
+                res.json({
+                    code: 500,
+                    data: errors.array(),
+                    success: false
+                })
+            }
+            next()
+        },
+        registerUser)
 
 module.exports = router;

@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const db = require('../../db');
 const md5 = require('../../utils/md5');
-const baseModel = require('../../utils/baseModel');
+const baseModel = require('../../model/baseModel');
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
