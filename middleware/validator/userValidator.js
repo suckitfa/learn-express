@@ -55,7 +55,6 @@ const update = validate([
         .isLength({min: 1}).withMessage('用户名长度不能小于1位')
         .custom(async username => {
             const usernameValidate = await User.findOne({username})
-            console.log("usernameValidate = ",usernameValidate)
             if(usernameValidate){
                 return Promise.reject('用户名已经存在')
             }
@@ -65,7 +64,6 @@ const update = validate([
         .isMobilePhone('zh-CN').withMessage('手机号格式不正确').bail()
         .custom(async phone => {
             const phoneValidate = await User.findOne({phone})
-            console.log('phoneValidate = ',phoneValidate    )
             if(phoneValidate){
                 return Promise.reject('手机号已经存在')
             }

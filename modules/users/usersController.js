@@ -57,8 +57,6 @@ const login = async (req, res) => {
 // 更新用户信息
 const updateUser = async (req, res) => {
     const userInfo = req.body
-    console.log('putUserInfo = ',userInfo)
-    // const token = req.headers.accessToken
     res.json({ code: 200, data: userInfo, sucess: true })
 }
 
