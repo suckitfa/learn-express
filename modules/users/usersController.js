@@ -56,8 +56,9 @@ const login = async (req, res) => {
 
 // 更新用户信息
 const updateUser = async (req, res) => {
-    const userInfo = req.body
-    res.json({ code: 200, data: userInfo, sucess: true })
+    // const userInfo = req.body
+    console.log('userInfo = ', req.user)
+    res.json({ code: 200, data: req.user, sucess: true })
 }
 
 const getUserByEmail = async (req,res) => {
