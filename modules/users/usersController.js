@@ -56,9 +56,12 @@ const login = async (req, res) => {
 
 // 更新用户信息
 const updateUser = async (req, res) => {
-    // const userInfo = req.body
-    console.log('userInfo = ', req.user)
-    res.json({ code: 200, data: req.user, sucess: true })
+    const newUserInfo = req.body // 更新的数据
+    const userInfo = req.user // 从jwt中解析出来的用户信息
+    // You should set the new option to true to return the document after update was applied.
+    // new：true 返回更新后的数据
+    const dbBack = await usersModel.findByIdAndUpdate(userInfo._id, newUserInfo,{new:true})
+    res.json({ code: 200, data: dbBack, sucess: true })
 }
 
 const getUserByEmail = async (req,res) => {
