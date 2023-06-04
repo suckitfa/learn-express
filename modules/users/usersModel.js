@@ -32,6 +32,15 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    conver: {
+        type: String,
+        default: null,
+    },
+    channeldes: {
+        type: String,
+        default: null,
+    },
+    
     // 解构赋值
     ...baseModel
 })

@@ -13,6 +13,7 @@ module.exports = validator => {
                 data: errors.array(),
                 success: false
             })
+            return
         }
         next()
     }

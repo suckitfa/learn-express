@@ -10,13 +10,17 @@ const createToken = async userInfo => await tojwt(userInfo, tokenEncrypKey, { ex
 const verifyToken = async (req, res, next) => {
     // 头部默认是小写 accessToken => accesstoken
     const token = req.headers.accesstoken
+    console.log('token = ', token)
     if (!token) {
         res.json({ code: 500, message: '请重新登入', data: null, success: false })
         return
     }
-    const userInfo = await verify(token, tokenEncrypKey).catch(err => {
-        res.json({code:500,message:'请重新登入',data:null,success:false})
-    })
+    const userInfo = await verify(token, tokenEncrypKey)
+        .catch(err => {
+            console.log('err = ', err)
+            // res.json({ code: 500, message: '请重新登入', data: err, success: false })
+        })
+    console.log('userInfo = ', userInfo)
     next()
 }
 

@@ -5,7 +5,7 @@ const validator = require('../../middleware/validator/userValidator')
 const {verifyToken} = require('../../utils/jwt')
 const {list,deleteUser,registerUser,login,updateUser,getUserByEmail} = require("./usersController")
 router
-    .put('/',verifyToken,updateUser)
+    .put('/',verifyToken,validator.update,updateUser)
     .get('/', list)
     .get("/:email",verifyToken,getUserByEmail)
     .delete('/',verifyToken,deleteUser)

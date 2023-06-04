@@ -39,7 +39,41 @@ const login = validate([
             }
         }),
 ])
+
+const update = validate([
+    body('email')
+    .notEmpty().withMessage('邮箱不能为空').bail()
+    .isEmail().withMessage('邮箱格式不正确').bail()
+    .custom(async email => {
+        const emailValidate = await User.findOne({email})
+        if(emailValidate){
+            return Promise.reject('邮箱已经存在')
+        }
+    }).bail(),
+    body('username')
+        .notEmpty().withMessage('用户名不能为空')
+        .isLength({min: 1}).withMessage('用户名长度不能小于1位')
+        .custom(async username => {
+            const usernameValidate = await User.findOne({username})
+            console.log("usernameValidate = ",usernameValidate)
+            if(usernameValidate){
+                return Promise.reject('用户名已经存在')
+            }
+        }),
+    body('phone')
+        .notEmpty().withMessage('手机号不能为空').bail()
+        .isMobilePhone('zh-CN').withMessage('手机号格式不正确').bail()
+        .custom(async phone => {
+            const phoneValidate = await User.findOne({phone})
+            console.log('phoneValidate = ',phoneValidate    )
+            if(phoneValidate){
+                return Promise.reject('手机号已经存在')
+            }
+        })
+])
+
 module.exports = {
     register,
-    login
+    login,
+    update
 }
