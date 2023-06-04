@@ -1,10 +1,11 @@
 // 处理业务逻辑
 const usersModel = require('./usersModel')
 const md5 = require('../../utils/md5')
+// const jwt  = require('jsonwebtoken')
+const { createToken } = require('../../utils/jwt')
 const list = async (req, res) => {
     const dbBack = await usersModel.find()
-    console.log('dbBack =', dbBack)
-    const data =  {
+    const data = {
         rows: dbBack.map(item => {
             return {
                 ...item._doc,
@@ -21,9 +22,6 @@ const list = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    // const dbBack = await usersModel.deleteOne({ : req.params.id })
-    console.log('req.params = ',req.params)
-    console.log('req.query = ',req.query)
     res.send("delete user")
 }
 
@@ -45,21 +43,25 @@ const login = async (req, res) => {
     // 3. 返回数据
     const { email, password } = req.body
     const encryptPassword = md5(password)
-    const user = await usersModel.findOne({email})
-    console.log('user lgoin....= ',user)
-     // 前面经过 validator 验证，这里不会为空
-     console.log(`email = ${email}, password = ${encryptPassword}`)
-    if(!user){
-        res.json({ code: 500, message: "密码错误", data:null,sucess: false })
-    } else {
-        res.json({ code: 200, message: "登录成功",
-        data: {...user._doc,
-        }, sucess: true })
+    const user = await usersModel.findOne({ email })
+    const userData = JSON.parse(JSON.stringify(user))
+    // 前面经过 validator 验证，这里不会为空
+    if (userData.password !== encryptPassword || userData.email !== email) {
+        res.json({ code: 500, message: "密码或者邮箱错误", data: null, sucess: false })
     }
+    const token = await createToken(userData)
+    // res.json('测试中')
+    res.json({ code: 200, message: "登录成功", data: { ...userData, accessToken: token }, sucess: true })
+}
+
+const updateUser = async (req, res) => {
+    // const token = req.headers.accessToken
+    res.json('测试中')
 }
 module.exports = {
     list,
     deleteUser,
     registerUser,
-    login
+    login,
+    updateUser
 }

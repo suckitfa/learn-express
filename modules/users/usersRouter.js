@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const {validationResult} = require('express-validator')
-const {list,deleteUser,registerUser,login} = require("./usersController")
 const validator = require('../../middleware/validator/userValidator')
-
+const {verifyToken} = require('../../utils/jwt')
+const {list,deleteUser,registerUser,login,updateUser} = require("./usersController")
 router
+    .put('/',verifyToken,updateUser)
     .get('/', list)
-    .delete('/',deleteUser)
+    .delete('/',verifyToken,deleteUser)
     .post(
         '/register',
         // 加载中间件

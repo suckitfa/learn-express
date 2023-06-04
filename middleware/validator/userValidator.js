@@ -34,7 +34,6 @@ const login = validate([
         .isEmail().withMessage('邮箱格式不正确').bail()
         .custom(async email => {
             const user = await User.findOne({email})
-            console.log('user = ',user)
             if(!user){
                 return Promise.reject('邮箱不存在')
             }
