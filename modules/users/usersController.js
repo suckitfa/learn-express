@@ -58,10 +58,16 @@ const updateUser = async (req, res) => {
     // const token = req.headers.accessToken
     res.json('测试中')
 }
+
+const getUserByEmail = async (req,res) => {
+    const dbBack = await usersModel.findOne({email:req.params.email})
+    res.json({code:200,data:dbBack,sucess:true})
+}
 module.exports = {
     list,
     deleteUser,
     registerUser,
     login,
-    updateUser
+    updateUser,
+    getUserByEmail
 }

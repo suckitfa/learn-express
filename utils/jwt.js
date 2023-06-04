@@ -8,17 +8,15 @@ const createToken = async userInfo => await tojwt(userInfo, tokenEncrypKey, { ex
 
 // 封装成中间件，对接口进行鉴权
 const verifyToken = async (req, res, next) => {
-    const token = req.headers.accessToken
-    console.log('accessToken = ', token)
+    // 头部默认是小写 accessToken => accesstoken
+    const token = req.headers.accesstoken
     if (!token) {
         res.json({ code: 500, message: '请重新登入', data: null, success: false })
         return
     }
     const userInfo = await verify(token, tokenEncrypKey).catch(err => {
-        console.log('err = ', err)
         res.json({code:500,message:'请重新登入',data:null,success:false})
     })
-    console.log('userInfo = ', userInfo)
     next()
 }
 

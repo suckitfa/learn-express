@@ -3,10 +3,11 @@ const router = express.Router();
 const {validationResult} = require('express-validator')
 const validator = require('../../middleware/validator/userValidator')
 const {verifyToken} = require('../../utils/jwt')
-const {list,deleteUser,registerUser,login,updateUser} = require("./usersController")
+const {list,deleteUser,registerUser,login,updateUser,getUserByEmail} = require("./usersController")
 router
     .put('/',verifyToken,updateUser)
     .get('/', list)
+    .get("/:email",verifyToken,getUserByEmail)
     .delete('/',verifyToken,deleteUser)
     .post(
         '/register',
