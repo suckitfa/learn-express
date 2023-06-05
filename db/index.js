@@ -10,6 +10,7 @@ main()
     console.log('链接成功！')
 })
 .catch(err => {
+    console.log(err)
     console.log('链接失败！')
 })
 
