@@ -20,6 +20,10 @@ const videoSchema = new mongoose.Schema({
         // 引用
         ref: 'user'
     },
+    cover: {
+        type: String,
+        required: true
+    },
     ...baseModel
 })
 module.exports = videoSchema

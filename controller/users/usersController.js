@@ -4,7 +4,6 @@ const md5 = require('../../utils/md5')
 const fs = require('fs')
 const promisify = require('util').promisify
 const rename = promisify(fs.rename)
-// const jwt  = require('jsonwebtoken')
 const { createToken } = require('../../utils/jwt')
 const list = async (req, res) => {
     const dbBack = await usersModel.find()
