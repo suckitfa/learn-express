@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const db = require('../../db');
 const md5 = require('../../utils/md5');
-const baseModel = require('../../model/baseModel');
+const baseModel = require('../base/baseModel');
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -45,4 +45,4 @@ const userSchema = new mongoose.Schema({
     ...baseModel
 })
 
-module.exports = mongoose.model('user', userSchema)
+module.exports = userSchema
