@@ -1,6 +1,6 @@
 const {body} = require('express-validator')
 const validate = require('./errorBack')
-const User = require('../../controller/users/usersModel.js')
+const {User} = require('../../model/index')
 const register = validate([
     body('username').notEmpty().withMessage('用户名不能为空').isLength({min: 1}).withMessage('用户名长度不能小于1位'),
     body('password').notEmpty().withMessage('密码不能为空').isLength({min: 3}).withMessage('密码长度不能小于6位'),

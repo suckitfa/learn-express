@@ -1,5 +1,5 @@
 // 处理业务逻辑
-const usersModel = require('./usersModel')
+const usersModel = require('../../model/index').User
 const md5 = require('../../utils/md5')
 const fs = require('fs')
 const promisify = require('util').promisify
