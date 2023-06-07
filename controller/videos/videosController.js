@@ -5,7 +5,9 @@ const list = async (req,res) => {
     const data = await Video.find()
         .skip((pageNum - 1) * pageSize)
         .limit(pageSize)
+        .populate('user')
         .catch(err => {
+        console.log('err = ',err)
         res.json({
             code: 500,
             error:err

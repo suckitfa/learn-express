@@ -18,7 +18,7 @@ const videoSchema = new mongoose.Schema({
         type:mongoose.ObjectId,
         required: true,
         // 引用
-        ref: 'user'
+        ref: 'User'
     },
     cover: {
         type: String,
