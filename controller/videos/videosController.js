@@ -1,7 +1,11 @@
 const { Video } = require('../../model')
 const list = async (req,res) => {
-    const data = await Video.find().catch(err => {
-        console.log('err = ',err)
+    const {pageSize = 10,pageNum  = 1} = req.query
+    const total = await Video.countDocuments() // 获取文档总数
+    const data = await Video.find()
+        .skip((pageNum - 1) * pageSize)
+        .limit(pageSize)
+        .catch(err => {
         res.json({
             code: 500,
             error:err
@@ -11,7 +15,7 @@ const list = async (req,res) => {
         code: 200,
         data: {
             rows:[...data],
-            total: data.length
+            total
         }
     })
 }
