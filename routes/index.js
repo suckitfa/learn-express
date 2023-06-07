@@ -5,7 +5,6 @@ var usersRouter = require('./user/usersRouter');
 var videosRouter = require('./video/videosRouter');
 
 router.use('/users', usersRouter);
-// router.use("/posts",postRouter);
 router.use('/videos',videosRouter);
 
 module.exports = router;

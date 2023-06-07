@@ -10,8 +10,12 @@ const getvod = async (req,res) => {
 }
 
 const createvideo = async (req,res) => {
+    const videoInfo = req.body
     res.json({
         message: 'createvideo',
+        video: {
+            ...videoInfo
+        }
     })
 }
 module.exports = {
