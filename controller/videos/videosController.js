@@ -1,6 +1,19 @@
 const { Video } = require('../../model')
 const list = async (req,res) => {
-    res.json({message: 'list',data:[{id:1,name:'video1'},{id:2,name:'video2'}]})
+    const data = await Video.find().catch(err => {
+        console.log('err = ',err)
+        res.json({
+            code: 500,
+            error:err
+        })
+    })
+    res.json({
+        code: 200,
+        data: {
+            rows:[...data],
+            total: data.length
+        }
+    })
 }
 
 const getvod = async (req,res) => {
