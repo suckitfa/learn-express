@@ -22,12 +22,6 @@ const list = async (req,res) => {
     })
 }
 
-const getvod = async (req,res) => {
-    res.json({
-        message: 'getvod',
-    })
-}
-
 const createvideo = async (req,res) => {
     const newVideo = new Video({
         ...req.body,
@@ -46,8 +40,22 @@ const createvideo = async (req,res) => {
         }
     })
 }
+
+const getvideo = async (req,res) => {
+    const {videoid} = req.params
+    
+    const video = await Video.findOne({vodvideoId:videoid}).populate('user').catch(err => {
+        res.status(500).json({
+            message: 'getvideo error',
+            error: err
+        })
+    })
+    if(!video) return res.status(404).json({message: 'video not found'})
+    else res.json({message: 'getvideo',video})
+}
+
 module.exports = {
     list,
-    getvod,
-    createvideo
+    createvideo,
+    getvideo
 }
