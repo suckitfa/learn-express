@@ -4,13 +4,13 @@ const videosController = require('../../controller/videos/videosController')
 const videoValidator = require('../../middleware/validator/videoValidator')
 const { verifyToken } = require('../../utils/jwt')
 router
-    .get('/', videosController.list)
+    .get('/',verifyToken(false),videosController.list)
     .post(
             '/createvideo',
-            verifyToken,
+            verifyToken(),
             videoValidator.createvideo,
             videosController.createvideo
     )
-    .get('/video/:videoid', videosController.getvideo)
+    .get('/video/:videoid', verifyToken(false) ,videosController.getvideo)
 
 module.exports = router

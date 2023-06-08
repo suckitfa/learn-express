@@ -7,11 +7,11 @@ const {list,deleteUser,registerUser,login,updateUser,getUserByEmail,headImg} = r
 const multer = require('multer')
 const upload = multer({dest: 'public/'})
 router
-    .put('/',verifyToken,validator.update,updateUser)
-    .post('/headimg',verifyToken,upload.single('headimg'),headImg)
+    .put('/',verifyToken(),validator.update,updateUser)
+    .post('/headimg',verifyToken(),upload.single('headimg'),headImg)
     .get('/', list)
-    .get("/:email",verifyToken,getUserByEmail)
-    .delete('/',verifyToken,deleteUser)
+    .get("/:email",verifyToken(),getUserByEmail)
+    .delete('/',verifyToken(),deleteUser)
     .post(
         '/register',
         // 加载中间件

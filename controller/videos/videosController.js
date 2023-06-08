@@ -41,6 +41,10 @@ const createvideo = async (req,res) => {
     })
 }
 
+// 1. 是否登入
+// 2. 是否有权限
+// 3. 是否观看了这个视频
+// 4. 视频评论
 const getvideo = async (req,res) => {
     const {videoid} = req.params
     
