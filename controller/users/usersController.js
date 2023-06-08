@@ -1,5 +1,6 @@
 // 处理业务逻辑
 const usersModel = require('../../model/index').User
+const subscribeModel = require('../../model/index').Subscribe
 const md5 = require('../../utils/md5')
 const fs = require('fs')
 const promisify = require('util').promisify
@@ -91,6 +92,41 @@ const headImg = async (req, res) => {
     }
 }
 
+const subscribeUser = async (req, res) => {
+    const userId = req.user._id
+    const channelId = req.params.userId
+    if(userId === channelId){ 
+        return res.status(400).json({code:400,message:"不能关注自己"})
+    }
+    const user = await usersModel.findById(userId).catch(err => {
+        return res.status(400).json({code:400,message:"用户不存在",err})
+    })
+    const subscribes = await subscribeModel.findOne({user:userId,channel:channelId}).catch(err => {
+        return res.status(400).json({code:400,message:"关注失败",err})
+    })
+    if(subscribes?.length > 0){
+        return res.status(400).json({code:400,message:"已经关注"})
+    }
+    const newSubscribe = new subscribeModel({userId,channelId})
+    await newSubscribe.save().catch(err => {
+        return res.status(400).json({code:400,message:"关注失败",err})
+    })
+
+    const channelUser = usersModel.findById(channelId)
+    channelUser.channelCount += 1
+    await channelUser.save().catch(err => {
+        return res.status(400).json({code:400,message:"关注失败",err})
+    })
+    res.json({
+        code: 200,
+        message: "关注成功",
+        user,
+        data: {
+            ...newSubscribe
+        }
+    })
+}
+
 module.exports = {
     list,
     deleteUser,
@@ -98,5 +134,6 @@ module.exports = {
     login,
     updateUser,
     getUserByEmail,
-    headImg
+    headImg,
+    subscribeUser
 }

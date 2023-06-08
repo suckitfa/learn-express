@@ -40,7 +40,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null,
     },
-    
+    channelCount: {
+        type: Number,
+        default: 0,
+    },
     // 解构赋值
     ...baseModel
 })
