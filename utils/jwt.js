@@ -10,6 +10,7 @@ const createToken = async userInfo => await tojwt(userInfo, tokenEncrypKey, { ex
 // 封装成中间件，对接口进行鉴权
 const verifyToken = (required = true) => {
     return  async (req, res, next) => {
+        console.log('req = ',req)
         const token = req.headers.accesstoken
         if (token) {
             try {

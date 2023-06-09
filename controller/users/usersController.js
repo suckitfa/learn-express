@@ -112,11 +112,13 @@ const subscribeUser = async (req, res) => {
         return res.status(400).json({code:400,message:"关注失败",err})
     })
 
+    // 被关注者
     const channelUser = usersModel.findById(channelId)
     channelUser.channelCount += 1
     await channelUser.save().catch(err => {
         return res.status(400).json({code:400,message:"关注失败",err})
     })
+    console.log('channelUser = ',channelUser)
     res.json({
         code: 200,
         message: "关注成功",
@@ -127,6 +129,33 @@ const subscribeUser = async (req, res) => {
     })
 }
 
+const unSubscribeUser = async (req, res) => {
+    // 1. 获取用户id jwt解析之后获取
+    const userId = req.user._id
+    // 2. 获取被关注者id 路径参数
+    const channelId = req.params.userId
+    if(userId === channelId){
+        return res.status(400).json({code:400,message:"不能取消关注自己",})
+    }
+    // 3. 删除关注记录
+    const dbBack = await subscribeModel.findOneAndDelete({user:userId,channel:channelId}).catch(err => {
+        return res.json({code:400,message:"取消关注失败",err})
+    })
+    if(!dbBack){
+        return res.status(400).json({code:400,message:"取消关注失败",dbBack})
+    }
+    // 4. 被关注者的关注数减一
+    dbBack.channel.channelCount -= 1
+    await dbBack.channel.save().catch(err => {
+        return res.status(400).json({code:400,message:"取消关注失败",err})
+    })
+    // 5. 返回数据
+    return res.json({
+        code: 200,
+        message:"取消关注成功",
+        data: {...dbBack}
+    })
+}
 module.exports = {
     list,
     deleteUser,
@@ -135,5 +164,6 @@ module.exports = {
     updateUser,
     getUserByEmail,
     headImg,
-    subscribeUser
+    subscribeUser,
+    unSubscribeUser
 }
